@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tặng cậu bó hoa đẹp nhoa</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --leaf-dark: #00331a;
+            --leaf-light: #00b33c;
+            --flower-pink: #f4a6b8;
+            --flower-center: #ffe66d;
+            --silhouette: #1f2b40;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            width: 100%; height: 100%;
+            background-color: var(--bg-color);
+            overflow: hidden; /* Chống cuộn trang, mất hình */
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Bầu trời sao */
+        .stars {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none;
+        }
+        .star {
+            position: absolute; background-color: white; border-radius: 50%; opacity: 0.5;
+            animation: twinkle 3s infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(0.8); }
+            100% { opacity: 0.8; transform: scale(1.2); }
+        }
+
+        /* SCENE 1: HOA CỎ */
+        .scene {
+            position: relative; width: 100%; height: 60vh; z-index: 10;
+            display: flex; justify-content: center; align-items: flex-end;
+            animation: scene-rise 2s ease-out forwards;
+            opacity: 0; cursor: pointer; transition: opacity 1s ease;
+        }
+        .scene:hover .click-hint { opacity: 1; }
+        @keyframes scene-rise {
+            0% { transform: translateY(100vh); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .click-hint {
+            position: absolute; top: -100px;
+            color: rgba(255, 255, 255, 0.8); font-size: 1.2rem;
+            letter-spacing: 2px; animation: float-hint 2s infinite alternate;
+            opacity: 0.7; transition: 0.3s; pointer-events: none; text-align: center;
+        }
+        @keyframes float-hint { 0% { transform: translateY(0); } 100% { transform: translateY(-10px); } }
+
+        /* Cỏ và Lá */
+        .grass-blade {
+            position: absolute; bottom: -10px; width: 8px;
+            background: linear-gradient(to top, var(--leaf-dark), var(--leaf-light));
+            border-radius: 50% 50% 0 0; transform-origin: bottom center;
+            animation: sway 4s ease-in-out infinite alternate;
+        }
+        .grass-blade:nth-child(even) { animation-duration: 5s; animation-direction: alternate-reverse; }
+        .big-leaf {
+            position: absolute; bottom: -20px; width: 60px; height: 120px;
+            background: linear-gradient(135deg, var(--leaf-light), var(--leaf-dark));
+            border-radius: 100% 0 100% 0; transform-origin: bottom left;
+            animation: sway 6s ease-in-out infinite alternate; box-shadow: inset -5px -5px 15px rgba(0,0,0,0.5);
+        }
+        .stem {
+            position: absolute; bottom: 0; width: 8px;
+            background: linear-gradient(to top, var(--leaf-dark), #009933);
+            transform-origin: bottom center; animation: sway 5s ease-in-out infinite alternate;
+        }
+
+        /* Hoa */
+        .flower { position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%); }
+        .petal {
+            position: absolute; width: 40px; height: 25px; background-color: var(--flower-pink);
+            border-radius: 50%; top: -12px; left: -20px; box-shadow: 0 0 10px rgba(244, 166, 184, 0.4);
+        }
+        .petal:nth-child(1) { transform: rotate(0deg) translateX(15px); }
+        .petal:nth-child(2) { transform: rotate(90deg) translateX(15px); }
+        .petal:nth-child(3) { transform: rotate(180deg) translateX(15px); }
+        .petal:nth-child(4) { transform: rotate(270deg) translateX(15px); }
+        .flower-center {
+            position: absolute; width: 20px; height: 20px; background-color: var(--flower-center);
+            border-radius: 50%; top: -10px; left: -10px; box-shadow: 0 0 15px rgba(255, 230, 109, 0.8); border: 2px solid white;
+        }
+        @keyframes sway { 0% { transform: rotate(-5deg); } 100% { transform: rotate(5deg); } }
+
+        /* SCENE 2: BÓ HOA LỚN */
+        .big-bouquet-scene {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; justify-content: center; align-items: center;
+            z-index: 50; opacity: 0; pointer-events: none; transition: opacity 1s ease;
+        }
+        .bouquet-wrapper { position: relative; transform: scale(0); animation: none; }
+        
+        /* Hiệu ứng scale tự động tương thích thiết bị */
+        @keyframes zoom-in-bounce {
+            0% { transform: scale(0); opacity: 0; }
+            70% { transform: scale(2.2); opacity: 1; }
+            100% { transform: scale(2); opacity: 1; }
+        }
+        
+        .wrap-cone {
+            width: 0; height: 0; border-left: 70px solid transparent; border-right: 70px solid transparent;
+            border-top: 160px solid #fce4ec; position: absolute; top: 20px; left: -70px; z-index: 1;
+        }
+        .wrap-back {
+            width: 140px; height: 100px; background: #f8bbd0; border-radius: 50px 50px 0 0;
+            position: absolute; top: -40px; left: -70px; z-index: 0;
+        }
+        .ribbon {
+            width: 50px; height: 15px; background: #d81b60; border-radius: 10px;
+            position: absolute; top: 100px; left: -25px; z-index: 3;
+        }
+        .flower-cluster { position: absolute; z-index: 2; }
+
+        /* SCENE 3: CẶP ĐÔI TẶNG HOA */
+        .couple-scene {
+            position: absolute; bottom: 5%; left: 0; width: 100%; height: 300px;
+            display: flex; justify-content: center; align-items: flex-end;
+            z-index: 60; opacity: 0; pointer-events: none; transition: opacity 1s ease;
+        }
+        .couple-container {
+            position: relative; width: 350px; max-width: 95vw; height: 250px;
+            display: flex; justify-content: space-between; align-items: flex-end; margin: 0 auto;
+        }
+        
+        /* Nhân vật */
+        .boy { position: relative; width: 70px; height: 200px; }
+        .boy .head { width: 50px; height: 50px; background: var(--silhouette); border-radius: 50%; margin: 0 auto; }
+        .boy .body { width: 45px; height: 150px; background: var(--silhouette); margin: 0 auto; border-radius: 20px 20px 0 0; }
+        .boy .arm {
+            position: absolute; width: 70px; height: 12px; background: var(--silhouette);
+            top: 70px; left: 35px; border-radius: 10px; transform-origin: left center; transform: rotate(30deg); z-index: 2; transition: transform 1s ease;
+        }
+        .girl { position: relative; width: 90px; height: 180px; }
+        .girl .head { width: 45px; height: 45px; background: var(--silhouette); border-radius: 50%; margin: 0 auto; }
+        .girl .hair { position: absolute; width: 55px; height: 70px; background: var(--silhouette); border-radius: 50% 50% 10px 10px; top: -5px; left: 17px; z-index: -1; }
+        .girl .body { width: 0; height: 0; border-left: 45px solid transparent; border-right: 45px solid transparent; border-bottom: 135px solid var(--silhouette); margin: 0 auto; }
+
+        /* Hoa chuyển tay */
+        .mini-bouquet { position: absolute; top: 90px; left: 80px; transform: scale(0.4) rotate(20deg); z-index: 3; opacity: 0; }
+        .give-flower-anim { animation: hand-over 2s ease-in-out forwards; }
+        @keyframes hand-over {
+            0% { left: 80px; top: 90px; transform: scale(0.4) rotate(20deg); }
+            50% { left: 160px; top: 50px; transform: scale(0.4) rotate(0deg); }
+            100% { left: 210px; top: 70px; transform: scale(0.4) rotate(-10deg); }
+        }
+        .arm-raise { transform: rotate(-10deg) !important; }
+
+        /* HIỆU ỨNG TRÁI TIM LỚN NỔ TUNG */
+        .final-heart {
+            position: absolute; top: 20px; left: 160px; width: 40px; height: 40px;
+            background-color: #ff2a55; transform: rotate(-45deg) scale(0); opacity: 0;
+            z-index: 10; box-shadow: 0 0 30px #ff2a55;
+        }
+        .final-heart::before, .final-heart::after {
+            content: ''; position: absolute; width: 40px; height: 40px; background-color: #ff2a55; border-radius: 50%;
+        }
+        .final-heart::before { top: -20px; left: 0; }
+        .final-heart::after { top: 0; left: 20px; }
+
+        .pop-heart-anim { animation: pop-heart 1.5s ease-in-out forwards; }
+        @keyframes pop-heart {
+            0% { transform: rotate(-45deg) scale(0); opacity: 0; }
+            50% { transform: rotate(-45deg) scale(1.8); opacity: 1; }
+            80% { transform: rotate(-45deg) scale(1.5); opacity: 1; }
+            95% { transform: rotate(-45deg) scale(2.2); opacity: 1; }
+            100% { transform: rotate(-45deg) scale(2.5); opacity: 0; } /* Biến mất để nổ */
+        }
+
+        /* Trái tim con bắn ra */
+        .tiny-heart {
+            position: absolute; width: 12px; height: 12px; background-color: #ff4d6d;
+            transform: rotate(-45deg); z-index: 70; opacity: 1; box-shadow: 0 0 10px #ff4d6d;
+        }
+        .tiny-heart::before, .tiny-heart::after {
+            content: ''; position: absolute; width: 12px; height: 12px; background-color: #ff4d6d; border-radius: 50%;
+        }
+        .tiny-heart::before { top: -6px; left: 0; }
+        .tiny-heart::after { top: 0; left: 6px; }
+
+        @keyframes explode-heart {
+            0% { transform: translate(0, 0) rotate(-45deg) scale(1); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(0); opacity: 0; }
+        }
+
+        /* Hiệu ứng hạt nền */
+        .firefly { position: absolute; width: 4px; height: 4px; background-color: #ccff00; border-radius: 50%; box-shadow: 0 0 8px 2px #ccff00; animation: flicker-light 2s infinite alternate; z-index: 5; }
+        @keyframes flicker-light { 0% { opacity: 0.4; } 100% { opacity: 1; } }
+        .heart-particle-container { position: absolute; width: 60px; height: 60px; border: 2px solid rgba(244, 166, 184, 0.4); border-radius: 50%; display: flex; justify-content: center; align-items: center; opacity: 0; animation: heart-pulse 10s ease-in-out infinite; z-index: 20; pointer-events: none; }
+        .heart-particle { position: relative; width: 20px; height: 20px; background-color: rgba(244, 166, 184, 0.6); transform: rotate(-45deg); }
+        .heart-particle::before, .heart-particle::after { content: ''; position: absolute; width: 20px; height: 20px; background-color: rgba(244, 166, 184, 0.6); border-radius: 50%; }
+        .heart-particle::before { top: -10px; left: 0; } .heart-particle::after { top: 0; left: 10px; }
+        @keyframes heart-pulse { 0% { opacity: 0; transform: scale(0.5); } 15% { opacity: 1; transform: scale(1); } 85% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0.5); } }
+
+        /* 📱 RESPONSIVE - THÍCH ỨNG MỌI ĐIỆN THOẠI */
+        @media screen and (max-width: 768px) {
+            .click-hint { font-size: 1rem; }
+            @keyframes zoom-in-bounce {
+                0% { transform: scale(0); opacity: 0; }
+                70% { transform: scale(1.3); opacity: 1; }
+                100% { transform: scale(1.1); opacity: 1; }
+            }
+            .couple-container { transform: scale(0.85); transform-origin: bottom center; }
+        }
+        @media screen and (max-width: 400px) {
+            .couple-container { transform: scale(0.75); }
+            @keyframes zoom-in-bounce {
+                0% { transform: scale(0); opacity: 0; }
+                70% { transform: scale(1.1); opacity: 1; }
+                100% { transform: scale(0.9); opacity: 1; }
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars" id="stars"></div>
+    <div id="particles"></div>
+
+    <div class="scene" id="scene">
+        <div class="click-hint">Chạm vào hoa nhé ❤️</div>
+        <div class="stem" style="height: 350px; left: 50%; z-index: 12; animation-delay: 0s;">
+            <div class="flower"><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="flower-center"></div></div>
+        </div>
+        <div class="stem" style="height: 280px; left: 45%; transform: rotate(-15deg); z-index: 11; animation-delay: -1s;">
+            <div class="flower"><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="flower-center"></div></div>
+        </div>
+        <div class="stem" style="height: 290px; left: 55%; transform: rotate(15deg); z-index: 11; animation-delay: -2s;">
+            <div class="flower"><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="flower-center"></div></div>
+        </div>
+    </div>
+
+    <div class="big-bouquet-scene" id="big-bouquet-scene">
+        <div class="bouquet-wrapper" id="bouquet-wrapper">
+            <div class="wrap-back"></div>
+            <div class="flower-cluster" style="top: -30px; left: -20px;"><div class="flower"><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="flower-center"></div></div></div>
+            <div class="flower-cluster" style="top: -40px; left: 20px;"><div class="flower"><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="flower-center"></div></div></div>
+            <div class="flower-cluster" style="top: 0px; left: -40px;"><div class="flower"><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="flower-center"></div></div></div>
+            <div class="flower-cluster" style="top: 10px; left: 30px;"><div class="flower"><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="flower-center"></div></div></div>
+            <div class="flower-cluster" style="top: 20px; left: 0px;"><div class="flower"><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="flower-center"></div></div></div>
+            <div class="wrap-cone"></div>
+            <div class="ribbon"></div>
+        </div>
+    </div>
+
+    <div class="couple-scene" id="couple-scene">
+        <div class="couple-container">
+            <div class="boy">
+                <div class="head"></div><div class="body"></div><div class="arm" id="boy-arm"></div>
+            </div>
+            
+            <div class="bouquet-wrapper mini-bouquet" id="mini-bouquet">
+                <div class="wrap-back"></div>
+                <div class="flower-cluster" style="top: -20px; left: 0;"><div class="flower"><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="flower-center"></div></div></div>
+                <div class="wrap-cone"></div><div class="ribbon"></div>
+            </div>
+
+            <div class="final-heart" id="final-heart"></div>
+
+            <div class="girl">
+                <div class="hair"></div><div class="head"></div><div class="body"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tạo Nền (Sao, Cỏ, Lấp lánh)
+        const starsContainer = document.getElementById('stars');
+        for(let i=0; i<100; i++) { let star = document.createElement('div'); star.className = 'star'; star.style.width = Math.random()*3+'px'; star.style.height = star.style.width; star.style.left = Math.random()*100+'vw'; star.style.top = Math.random()*100+'vh'; star.style.animationDelay = Math.random()*2+'s'; starsContainer.appendChild(star); }
+        
+        const scene = document.getElementById('scene');
+        for(let i=0; i<20; i++) { let grass = document.createElement('div'); grass.className = 'grass-blade'; grass.style.height = (Math.random()*200+100)+'px'; grass.style.left = (Math.random()*60+20)+'%'; grass.style.transform = `rotate(${Math.random()*40-20}deg)`; grass.style.animationDelay = Math.random()*5+'s'; scene.appendChild(grass); }
+        for(let i=0; i<8; i++) { let leaf = document.createElement('div'); leaf.className = 'big-leaf'; leaf.style.left = (Math.random()*15+42)+'%'; leaf.style.transform = `rotate(${Math.random()*100-50}deg)`; leaf.style.animationDelay = Math.random()*5+'s'; scene.appendChild(leaf); }
+        
+        const particlesContainer = document.getElementById('particles');
+        for(let i=0; i<15; i++) { let hContainer = document.createElement('div'); hContainer.className = 'heart-particle-container'; hContainer.style.left = Math.random()*100+'vw'; hContainer.style.top = Math.random()*100+'vh'; hContainer.style.animationDelay = Math.random()*10+'s'; let heart = document.createElement('div'); heart.className = 'heart-particle'; hContainer.appendChild(heart); particlesContainer.appendChild(hContainer); }
+        for(let i=0; i<15; i++) { let firefly = document.createElement('div'); firefly.className = 'firefly'; firefly.style.left = (Math.random()*30+35)+'%'; firefly.style.bottom = (Math.random()*40+10)+'vh'; firefly.style.animationDelay = Math.random()*5+'s'; particlesContainer.appendChild(firefly); }
+
+        // KỊCH BẢN CHUYỂN CẢNH
+        let isClicked = false;
+        
+        scene.addEventListener('click', () => {
+            if (isClicked) return;
+            isClicked = true;
+
+            const bigBouquetScene = document.getElementById('big-bouquet-scene');
+            const bouquetWrapper = document.getElementById('bouquet-wrapper');
+            const coupleScene = document.getElementById('couple-scene');
+            const miniBouquet = document.getElementById('mini-bouquet');
+            const boyArm = document.getElementById('boy-arm');
+            const finalHeart = document.getElementById('final-heart');
+            const coupleContainer = document.querySelector('.couple-container');
+
+            // 1. Cỏ hoa tàn lụi
+            scene.style.opacity = '0';
+            
+            // 2. Bó hoa khổng lồ mọc lên
+            setTimeout(() => {
+                scene.style.display = 'none';
+                bigBouquetScene.style.opacity = '1';
+                bouquetWrapper.style.animation = 'zoom-in-bounce 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
+            }, 1000);
+
+            // 3. Tắt bó hoa lớn -> Mở màn tặng hoa
+            setTimeout(() => {
+                bigBouquetScene.style.opacity = '0';
+                
+                setTimeout(() => {
+                    bigBouquetScene.style.display = 'none';
+                    coupleScene.style.opacity = '1';
+
+                    // 4. Bắt đầu đưa hoa
+                    setTimeout(() => {
+                        miniBouquet.style.opacity = '1';
+                        boyArm.classList.add('arm-raise');
+                        miniBouquet.classList.add('give-flower-anim');
+
+                        // 5. Trái tim lớn xuất hiện và... BÙM!
+                        setTimeout(() => {
+                            finalHeart.classList.add('pop-heart-anim');
+                            
+                            // Tạo hiệu ứng 50 trái tim con bay lả tả
+                            setTimeout(() => {
+                                for(let i = 0; i < 50; i++) {
+                                    let tinyHeart = document.createElement('div');
+                                    tinyHeart.className = 'tiny-heart';
+                                    
+                                    // Bắt đầu từ tâm trái tim lớn (khoảng giữa hai người)
+                                    tinyHeart.style.left = '175px'; 
+                                    tinyHeart.style.top = '35px';
+                                    
+                                    // Công thức toán học tạo độ tỏa tròn random 360 độ
+                                    let angle = Math.random() * Math.PI * 2;
+                                    let distance = Math.random() * 250 + 50; // Bay xa từ 50 -> 300px
+                                    let tx = Math.cos(angle) * distance + 'px';
+                                    let ty = Math.sin(angle) * distance + 'px';
+                                    let rot = Math.random() * 360 + 'deg';
+                                    let duration = (Math.random() * 1.5 + 1) + 's'; // Bay trong 1-2.5 giây
+                                    
+                                    tinyHeart.style.setProperty('--tx', tx);
+                                    tinyHeart.style.setProperty('--ty', ty);
+                                    tinyHeart.style.setProperty('--rot', rot);
+                                    tinyHeart.style.animation = `explode-heart ${duration} cubic-bezier(0.25, 1, 0.5, 1) forwards`;
+                                    
+                                    coupleContainer.appendChild(tinyHeart);
+                                }
+                            }, 1400); // Khớp chuẩn xác giây phút trái tim lớn nứt ra
+
+                        }, 1800); // Đợi bó hoa chạm tay nữ
+
+                    }, 1000);
+
+                }, 1000);
+
+            }, 4500); // Ngắm bó hoa to trong 4.5s
+        });
+    </script>
+</body>
+</html>
