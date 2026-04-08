@@ -38,24 +38,32 @@
 
         /* MÀN HÌNH KHÓA VÀ BÀN PHÍM */
         .login-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; z-index: 999; transition: opacity 1s ease, transform 1s ease; }
-        .login-card { background: rgba(255, 182, 193, 0.05); backdrop-filter: blur(12px); border: 1px solid rgba(255, 182, 193, 0.2); border-radius: 20px; padding: 30px 20px; width: 320px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.3), inset 0 0 15px rgba(255,255,255,0.05); color: #fff; }
+        .login-card { background: rgba(255, 182, 193, 0.05); backdrop-filter: blur(12px); border: 1px solid rgba(255, 182, 193, 0.2); border-radius: 20px; padding: 30px 20px; width: 340px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.3), inset 0 0 15px rgba(255,255,255,0.05); color: #fff; }
         .login-card h2 { margin-top: 0; font-size: 1.3rem; color: #ffb3c6; margin-bottom: 20px; letter-spacing: 1px; }
         
-        .input-group { position: relative; margin-bottom: 15px; }
-        .input-field { width: 100%; padding: 15px; border-radius: 12px; border: 2px solid rgba(255, 255, 255, 0.2); background: rgba(0, 0, 0, 0.3); color: white; font-size: 1.1rem; box-sizing: border-box; text-align: center; outline: none; transition: 0.3s; }
-        .input-field::placeholder { color: rgba(255, 255, 255, 0.5); }
-        .input-field:focus, .input-field.active { border-color: #ff4d6d; box-shadow: 0 0 15px rgba(255, 77, 109, 0.4); background: rgba(0, 0, 0, 0.5); }
+        .email-row { display: flex; gap: 10px; margin-bottom: 15px; width: 100%; }
+        .email-row .input-field { flex: 1; text-align: left; padding: 15px; font-size: 1rem; }
         
-        .send-code-btn { position: absolute; right: 8px; top: 8px; padding: 8px 12px; background: #ff4d6d; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: bold; transition: 0.2s; }
+        .send-code-btn { padding: 0 15px; background: #ff4d6d; color: white; border: none; border-radius: 12px; cursor: pointer; font-size: 0.9rem; font-weight: bold; transition: 0.2s; flex-shrink: 0; display: flex; align-items: center; justify-content: center; white-space: nowrap; }
         .send-code-btn:hover { background: #d81b60; }
         .send-code-btn:disabled { background: #555; cursor: not-allowed; }
 
-        .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 25px; }
+        .input-group { position: relative; margin-bottom: 15px; }
+        .input-field { width: 100%; padding: 15px; border-radius: 12px; border: 2px solid rgba(255, 255, 255, 0.2); background: rgba(0, 0, 0, 0.3); color: white; font-size: 1.1rem; box-sizing: border-box; text-align: center; outline: none; transition: 0.3s; cursor: text; }
+        .input-field::placeholder { color: rgba(255, 255, 255, 0.5); }
+        .input-field:focus, .input-field.active { border-color: #ff4d6d; box-shadow: 0 0 15px rgba(255, 77, 109, 0.4); background: rgba(0, 0, 0, 0.5); }
+        
+        #otp-field { cursor: pointer; letter-spacing: 4px; font-size: 1.3rem; font-weight: bold; }
+
+        #otp-section { display: none; animation: fade-in 0.8s ease-out forwards; }
+        @keyframes fade-in { 0% { opacity: 0; transform: translateY(-10px); } 100% { opacity: 1; transform: translateY(0); } }
+
+        .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px; margin-bottom: 20px;}
         .key { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.1); color: white; font-size: 1.4rem; padding: 12px 0; border-radius: 12px; cursor: pointer; transition: 0.1s; display: flex; justify-content: center; align-items: center; }
         .key:active { background: rgba(255, 77, 109, 0.6); transform: scale(0.95); }
         .key.action { background: rgba(255, 255, 255, 0.05); font-size: 1.1rem; color: #ffb3c6; }
         
-        .unlock-btn { width: 100%; padding: 15px; margin-top: 20px; background: linear-gradient(45deg, #ff4d6d, #ff889e); color: white; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4); }
+        .unlock-btn { width: 100%; padding: 15px; background: linear-gradient(45deg, #ff4d6d, #ff889e); color: white; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4); }
         .unlock-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255, 77, 109, 0.6); }
 
         .error-msg { color: #ff4d6d; font-size: 0.9rem; margin-top: 10px; display: none; font-style: italic; }
@@ -63,9 +71,15 @@
         .toast-notification { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.95); color: #d81b60; padding: 15px 25px; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); font-weight: bold; transition: top 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 1000; text-align: center; width: 80%; max-width: 400px; }
         .toast-notification.show { top: 30px; }
 
-        /* CONTAINER QUÀ TẶNG */
-        .main-gift-container { width: 100%; height: 100%; display: none; }
-        .scene { position: relative; width: 100%; height: 60vh; z-index: 10; display: flex; justify-content: center; align-items: flex-end; animation: scene-rise 2s ease-out forwards; opacity: 0; cursor: pointer; transition: opacity 1s ease; }
+        /* =========================================
+           CONTAINER QUÀ TẶNG
+           ========================================= */
+        /* Đã sửa container absolute neo xuống đáy */
+        .main-gift-container { position: absolute; bottom: 0; left: 0; width: 100%; height: 100%; display: none; }
+        
+        /* Đã sửa cảnh hoa cỏ neo tuyệt đối xuống đáy màn hình */
+        .scene { position: absolute; bottom: 0; left: 0; width: 100%; height: 60vh; z-index: 10; display: flex; justify-content: center; align-items: flex-end; animation: scene-rise 2s ease-out forwards; opacity: 0; cursor: pointer; transition: opacity 1s ease; }
+        
         .scene:hover .click-hint { opacity: 1; }
         @keyframes scene-rise { 0% { transform: translateY(100vh); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
         .click-hint { position: absolute; top: -100px; color: rgba(255, 255, 255, 0.8); font-size: 1.2rem; letter-spacing: 2px; animation: float-hint 2s infinite alternate; opacity: 0.7; transition: 0.3s; pointer-events: none; text-align: center; }
@@ -159,33 +173,36 @@
         <div class="login-card">
             <h2>Xác nhận danh tính ❤️</h2>
             
-            <div class="input-group">
-                <input type="email" id="email-field" class="input-field" placeholder="Nhập Email của bạn...">
+            <div class="email-row">
+                <input type="email" id="email-field" class="input-field active" placeholder="Nhập Email (@gmail.com)...">
                 <button id="get-code-btn" class="send-code-btn">Gửi mã</button>
             </div>
             
-            <div class="input-group">
-                <input type="password" id="otp-field" class="input-field active" placeholder="Mã xác nhận..." readonly>
-            </div>
-            
-            <div id="login-error" class="error-msg">Ôi mật khẩu bạn nhập sai rồi, hãy nhập lại nhé 🥺</div>
-            
-            <div class="keypad">
-                <div class="key" data-val="1">1</div>
-                <div class="key" data-val="2">2</div>
-                <div class="key" data-val="3">3</div>
-                <div class="key" data-val="4">4</div>
-                <div class="key" data-val="5">5</div>
-                <div class="key" data-val="6">6</div>
-                <div class="key" data-val="7">7</div>
-                <div class="key" data-val="8">8</div>
-                <div class="key" data-val="9">9</div>
-                <div class="key action" data-val="clear">C</div>
-                <div class="key" data-val="0">0</div>
-                <div class="key action" data-val="del">⌫</div>
-            </div>
+            <div id="otp-section">
+                <div class="input-group">
+                    <input type="password" id="otp-field" class="input-field" placeholder="Mã xác nhận 4 số..." readonly>
+                </div>
+                
+                <div id="login-error" class="error-msg">Ôi mật khẩu bạn nhập sai rồi, hãy nhập lại nhé 🥺</div>
+                
+                <div class="keypad">
+                    <div class="key" data-val="1">1</div>
+                    <div class="key" data-val="2">2</div>
+                    <div class="key" data-val="3">3</div>
+                    <div class="key" data-val="4">4</div>
+                    <div class="key" data-val="5">5</div>
+                    <div class="key" data-val="6">6</div>
+                    <div class="key" data-val="7">7</div>
+                    <div class="key" data-val="8">8</div>
+                    <div class="key" data-val="9">9</div>
+                    <div class="key action" data-val="clear">C</div>
+                    <div class="key" data-val="0">0</div>
+                    <div class="key action" data-val="del">⌫</div>
+                </div>
 
-            <button id="unlock-btn" class="unlock-btn">Mở Khóa Quà Tặng</button>
+                <button id="unlock-btn" class="unlock-btn">Mở Khóa Quà Tặng</button>
+            </div>
+            
         </div>
     </div>
 
@@ -275,10 +292,13 @@
         // LOGIC MÀN HÌNH KHÓA & BÀN PHÍM
         // ==========================================
         const emailField = document.getElementById('email-field');
+        const otpSection = document.getElementById('otp-section');
         const otpField = document.getElementById('otp-field');
         const toast = document.getElementById('toast-notification');
         
-        // Mã OTP ngẫu nhiên
+        let activeField = emailField; 
+        
+        // Tạo mã 4 số ngẫu nhiên
         const secretCode = Math.floor(1000 + Math.random() * 9000).toString();
 
         // Bàn phím số CHỈ nhập vào ô OTP
@@ -301,10 +321,11 @@
         // GỬI MAIL OTP
         const getCodeBtn = document.getElementById('get-code-btn');
         getCodeBtn.addEventListener('click', () => {
-            const userEmail = emailField.value.trim();
+            const userEmail = emailField.value.trim().toLowerCase();
             
-            if(!userEmail || !userEmail.includes('@')) {
-                toast.innerText = "Hãy nhập đúng địa chỉ Email nhé! 🥺";
+            // Ràng buộc chỉ chấp nhận mail có đuôi @gmail.com
+            if(!userEmail || !userEmail.endsWith('@gmail.com')) {
+                toast.innerText = "Hãy nhập đúng định dạng @gmail.com nhé! 🥺";
                 toast.classList.add('show');
                 setTimeout(() => { toast.classList.remove('show'); }, 3000);
                 return;
@@ -322,15 +343,29 @@
                 toast.innerText = `Đã gửi mã xác nhận! Vui lòng kiểm tra Email nhé 🥰`;
                 toast.classList.add('show');
                 setTimeout(() => { toast.classList.remove('show'); }, 4000);
+                
                 getCodeBtn.innerText = "Đã gửi";
+                
+                // MỞ PHẦN NHẬP OTP SAU KHI GỬI THÀNH CÔNG
+                otpSection.style.display = 'block';
+                emailField.classList.remove('active');
+                activeField = otpField;
+                otpField.classList.add('active');
             })
             .catch((err) => {
                 console.log("Lỗi EmailJS: ", err);
                 toast.innerText = `Lỗi gửi thư. Mã test tạm thời là: ${secretCode}`;
                 toast.classList.add('show');
                 setTimeout(() => { toast.classList.remove('show'); }, 5000);
+                
                 getCodeBtn.innerText = "Gửi lại";
                 getCodeBtn.disabled = false;
+                
+                // Vẫn mở khóa bàn phím OTP để test trường hợp bị lỗi mạng
+                otpSection.style.display = 'block';
+                emailField.classList.remove('active');
+                activeField = otpField;
+                otpField.classList.add('active');
             });
         });
 
@@ -349,7 +384,6 @@
                 document.getElementById('login-error').style.display = 'block';
             }
         });
-
 
         // ==========================================
         // KỊCH BẢN CHUYỂN CẢNH QUÀ TẶNG
